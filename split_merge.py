@@ -16,6 +16,7 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
     if os.path.exists(path):
         dataset = wk.Dataset(path, scale=scale, exist_ok=True)
     else:
+        print("Downloading the dataset. This will take a while.")
         dataset = wk.Dataset.download(
             "W-Q_x0_y0_z0_2022-01-02_00-43-18",  # zebrafish_vertebra_250um",
             "4fd6473e68256c0a",
@@ -42,6 +43,7 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
     # Overwrite base annotation with new annotations
     segmentation_mag = dataset.layers["segmentations"].mags[wk.Mag(1)]
     segmentation_data = segmentation_mag.read()
+    print("Overwriting base annotation. This could take a while.")
     for offset, size in volume_annotation_mag.get_bounding_boxes_on_disk():
         data = volume_annotation_mag.read(offset, size)
         segmentation_data[
@@ -75,6 +77,7 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
             negfrom = segmentation_data[0, neg[1][0][0], neg[1][0][1], neg[1][0][2]]
             negto = segmentation_data[0, neg[1][1][0], neg[1][1][1], neg[1][1][2]]
             if negfrom == negto:
+                import pdb;pdb.set_trace()
                 neg_0 = [x for x in neg[0].keys()][0]
                 neg_1 = [x for x in neg[0].keys()][1]
                 print("Segment id bled from {} to {} in negative control.".format(neg_0, neg_1))
