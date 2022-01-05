@@ -41,12 +41,16 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
 
     # Overwrite base annotation with new annotations
     segmentation_mag = dataset.layers["segmentations"].mags[wk.Mag(1)]
+    segmentation_data = segmentation_mag.read()
     for offset, size in volume_annotation_mag.get_bounding_boxes_on_disk():
         data = volume_annotation_mag.read(offset, size)
+        segmentation_data[
+            0,
+            offset[0]: offset[0] + size[0],
+            offset[1]: offset[1] + size[1],
+            offset[2]: offset[2] + size[2]]
         segmentation_mag.write(data, offset)
-        print(f"Wrote bbox {offset} {size} {data.max()}")
-    import pdb;pdb.set_trace()
-    segmentation_data = segmentation_mag.read()
+        print(f"Overwrote bbox {offset} {size}")
   
     # Merge through skeletions
     edits = {}  # A dict with a list per entry
@@ -71,7 +75,12 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
             negfrom = segmentation_data[0, neg[1][0][0], neg[1][0][1], neg[1][0][2]]
             negto = segmentation_data[0, neg[1][1][0], neg[1][1][1], neg[1][1][2]]
             if negfrom == negto:
-                print("Segment id bled from {} to {} in negative control.".format(neg[0].keys()[0], neg[0].values()[1]))
+                neg_0 = [x for x in neg[0].keys()][0]
+                neg_1 = [x for x in neg[0].keys()][1]
+                print("Segment id bled from {} to {} in negative control.".format(neg_0, neg_1))
+            else:
+                pos_0 = [x for x in pos[0].keys()][1]
+                print("Segment id {} successfully propogated.".format(pos_0))
             negid = neg.values()[1]
 
     # Overwrite annotations
