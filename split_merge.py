@@ -20,7 +20,6 @@ def main(conf):
 
     with wk.webknossos_context(url="https://webknossos.org", token=token):
         # Get the dataset first
-        import pdb;pdb.set_trace()
         if os.path.exists(path):
             dataset = wk.Dataset(path, scale=scale, exist_ok=True)
         else:
