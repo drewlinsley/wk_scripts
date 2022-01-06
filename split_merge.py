@@ -12,7 +12,7 @@ from omegaconf import OmegaConf
 def main(conf):
     token = conf.token
     path = conf.revision_path  # WQ
-    scale = conf.scale  # (5.0, 5.0, 50.0)
+    scale = tuple([x for x in conf.scale])  # (5.0, 5.0, 50.0)
     segmentation_layer = conf.segmentation_layer  #     "segmentations"
     online_dataset = conf.online_dataset  # "W-Q_x0_y0_z0_2022-01-02_00-43-18"
     online_team = conf.online_team  # "4fd6473e68256c0a"
