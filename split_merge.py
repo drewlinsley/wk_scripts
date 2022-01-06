@@ -95,7 +95,7 @@ def main(conf):
             largest_segment_id=int(segmentation_data.max())
         )
         new_segmentation_mag = new_segmentation_layer.add_mag("1")
-        new_segmentation_mag.write(new_segmentation_data)
+        new_segmentation_mag.write(segmentation_data)
         new_segmentation_mag.compress()
         new_segmentation_layer.downsample()
         url = dataset.upload()
