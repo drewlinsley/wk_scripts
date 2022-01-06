@@ -92,10 +92,10 @@ def main(conf):
             segmentation_layer,
             wk.SEGMENTATION_CATEGORY,
             volume_annotation_layer.dtype_per_channel,
-            largest_segment_id=segmentation_data.max()
+            largest_segment_id=int(segmentation_data.max())
         )
         segmentation_mag = segmentation_layer.add_mag("1")
-        segmentation_mag.write(dsegmentation_data)
+        segmentation_mag.write(segmentation_data)
         segmentation_mag.compress()
         segmentation_layer.downsample()
         url = dataset.upload()
