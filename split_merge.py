@@ -1,32 +1,37 @@
 import os
+import sys
 import webknossos as wk
 import numpy as np
 from webknossos.geometry import BoundingBox, Mag, Vec3Int
 from time import gmtime, strftime
 import fastremap
 from tqdm import tqdm
+from omegaconf import OmegaConf
 
 
-token = "UTUOQJvbbyRFbD_NSnTMig"
-path = "WQ"
-scale = (5.0, 5.0, 50.0)
-segmentation_layer = "segmentations"
-with wk.webknossos_context(url="https://webknossos.org", token=token):
-    # Get the dataset first
-    if os.path.exists(path):
-        dataset = wk.Dataset(path, scale=scale, exist_ok=True)
-    else:
-        print("Downloading the dataset. This will take a while.")
-        dataset = wk.Dataset.download(
-            "W-Q_x0_y0_z0_2022-01-02_00-43-18",  # zebrafish_vertebra_250um",
-            "4fd6473e68256c0a",
+def main(conf):
+    token = conf.token
+    path = conf.revision_path  # WQ
+    scale = conf.scale  # (5.0, 5.0, 50.0)
+    segmentation_layer = conf.segmentation_layer  #     "segmentations"
+    online_dataset = conf.online_dataset  # "W-Q_x0_y0_z0_2022-01-02_00-43-18"
+    online_team = conf.online_team  # "4fd6473e68256c0a"
+    annotation_url = conf.annotation_url  # "https://webknossos.org/annotations/Explorational/61d5c797010000b500b3a085"
+
+    with wk.webknossos_context(url="https://webknossos.org", token=token):
+        # Get the dataset first
+        if os.path.exists(path):
+            dataset = wk.Dataset(path, scale=scale, exist_ok=True)
+        else:
+            print("Downloading the dataset. This will take a while.")
+            dataset = wk.Dataset.download(
+            online_dataset,  # "W-Q_x0_y0_z0_2022-01-02_00-43-18",  # zebrafish_vertebra_250um",
+            online_team,  # "4fd6473e68256c0a",
             layers=["images", segmentation_layer],  # , "Volume Layer"],
             mags=[Mag("1")],
             path=path,
         )
-    annotation = wk.Annotation.download(
-        "https://webknossos.org/annotations/Explorational/61d5c797010000b500b3a085"
-    )
+    annotation = wk.Annotation.download(annotation_url)
     time_str = strftime("%Y-%m-%d_%H-%M-%S", gmtime())
     new_dataset_name = annotation.dataset_name + f"_segmented_{time_str}"
     new_dataset = wk.Dataset(new_dataset_name, scale=scale)
@@ -67,7 +72,6 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
             if name not in edits:  # Sort the commands into different edits
                 edits[name] = {}
             edits[name][command] = [{segfrom: segto}, coords]
-
     for name, commands in tqdm(edits.items(), total=len(edits), desc="Merging"):
         pos = commands["merge"]
         segmentation_data = fastremap.remap(segmentation_data, pos[0], preserve_missing_labels=True)
@@ -97,4 +101,10 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
     segmentation_layer.downsample()
     url = dataset.upload()
     print("Uploaded new base annotation to: {}".format(url)) 
+
+
+if __name__ == '__main__':
+    conf = sys.argv[1]  # "configs/W-Q.yml"
+    conf = OmegaConf.load(conf)
+    main(conf)
 

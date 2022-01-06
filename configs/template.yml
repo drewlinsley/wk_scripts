@@ -1,0 +1,10 @@
+# Example configuration file for updating the W-Q dataset.
+
+token: "???"
+revision_path: "WQ"
+scale: [5.0, 5.0, 50.0]
+segmentation_layer: "segmentations"
+online_dataset: "W-Q_x0_y0_z0_2022-01-02_00-43-18"
+online_team: "4fd6473e68256c0a"
+annotation_url: "https://webknossos.org/annotations/Explorational/61d5c797010000b500b3a085"
+
