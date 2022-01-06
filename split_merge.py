@@ -10,7 +10,6 @@ from omegaconf import OmegaConf
 
 
 def main(conf):
-    import pdb;pdb.set_trace()
     token = conf.token
     path = conf.revision_path  # WQ
     scale = conf.scale  # (5.0, 5.0, 50.0)
