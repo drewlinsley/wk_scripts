@@ -85,7 +85,6 @@ def main(conf):
                 else:
                     pos_0 = [x for x in pos[0].keys()][1]
                     print("Segment id {} successfully propogated.".format(pos_0))
-                negid = neg.values()[1]
 
         # Overwrite annotations
         dataset.delete_layer(segmentation_layer)
