@@ -20,6 +20,7 @@ def main(conf):
 
     with wk.webknossos_context(url="https://webknossos.org", token=token):
         # Get the dataset first
+        import pdb;pdb.set_trace()
         if os.path.exists(path):
             dataset = wk.Dataset(path, scale=scale, exist_ok=True)
         else:
@@ -88,16 +89,16 @@ def main(conf):
 
         # Overwrite annotations
         dataset.delete_layer(segmentation_layer)
-        segmentation_layer = dataset.add_layer(
+        new_segmentation_layer = dataset.add_layer(
             segmentation_layer,
             wk.SEGMENTATION_CATEGORY,
             volume_annotation_layer.dtype_per_channel,
             largest_segment_id=int(segmentation_data.max())
         )
-        segmentation_mag = segmentation_layer.add_mag("1")
-        segmentation_mag.write(segmentation_data)
-        segmentation_mag.compress()
-        segmentation_layer.downsample()
+        new_segmentation_mag = new_segmentation_layer.add_mag("1")
+        new_segmentation_mag.write(new_segmentation_data)
+        new_segmentation_mag.compress()
+        new_segmentation_layer.downsample()
         url = dataset.upload()
         print("Uploaded new base annotation to: {}".format(url)) 
 
