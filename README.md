@@ -1,6 +1,6 @@
 # Scripts for interacting with Webknossos.
 
-1. Install required packages with `pip install -r requirements.txt`.
+1. Install required packages with `pip install -r requirements.txt`. You may want to create a conda (conda env create --name=wk) or virtual environment (python -m venv wk) first.
 
 2. The project works off of ".yml" config files, which hold information about your project. Create one of these per project.
 - For example, cp configs/template.yml configs/W-Q.yml
