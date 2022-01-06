@@ -77,10 +77,7 @@ with wk.webknossos_context(url="https://webknossos.org", token=token):
             negfrom = segmentation_data[0, neg[1][0][0], neg[1][0][1], neg[1][0][2]]
             negto = segmentation_data[0, neg[1][1][0], neg[1][1][1], neg[1][1][2]]
             if negfrom == negto:
-                import pdb;pdb.set_trace()
-                neg_0 = [x for x in neg[0].keys()][0]
-                neg_1 = [x for x in neg[0].keys()][1]
-                print("Segment id bled from {} to {} in negative control.".format(neg_0, neg_1))
+                print("Segment id bled from {} to {} in negative control.".format(neg[1][0], neg[1][1]))
             else:
                 pos_0 = [x for x in pos[0].keys()][1]
                 print("Segment id {} successfully propogated.".format(pos_0))
