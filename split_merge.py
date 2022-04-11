@@ -41,7 +41,7 @@ def main(conf):
 
         # Start merging annotations into base
         print("Loading data into memory")
-        volume_annotation_layer = annotation.save_volume_annotation(new_dataset)
+        volume_annotation_layer = annotation.export_volume_layer_to_dataset(new_dataset)
         print(volume_annotation_layer.bounding_box)
         volume_annotation_mag = volume_annotation_layer.mags[wk.Mag(1)]
 
