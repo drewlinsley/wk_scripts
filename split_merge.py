@@ -44,12 +44,15 @@ def main(conf):
         volume_annotation_layer = annotation.export_volume_layer_to_dataset(new_dataset)
         print(volume_annotation_layer.bounding_box)
         volume_annotation_mag = volume_annotation_layer.mags[wk.Mag(1)]
+        # volume_annotation_mag = volume_annotation_layer.get_best_mag()
 
         # Overwrite base annotation with new annotations
         segmentation_mag = dataset.layers["segmentations"].mags[wk.Mag(1)]
         segmentation_data = segmentation_mag.read()
         print("Overwriting base annotation. This could take a while.")
-        for offset, size in volume_annotation_mag.get_bounding_boxes_on_disk():
+        for info in volume_annotation_mag.get_bounding_boxes_on_disk():
+            offset = info.topleft
+            size = info.size
             data = volume_annotation_mag.read(offset, size)
             segmentation_data[
                 0,
@@ -61,7 +64,8 @@ def main(conf):
   
         # Merge through skeletions
         edits = {}  # A dict with a list per entry
-        for tree in nml._children:  # nml.trees() is a flattened iterator of all trees
+        import pdb;pdb.set_trace()
+        for tree in nml._child_graphs:  # nml.trees() is a flattened iterator of all trees
             name_str = tree.graph["name"]
             name = name_str.split("_")[0]
             command = name_str.split("_")[1]
@@ -72,6 +76,7 @@ def main(conf):
                 if name not in edits:  # Sort the commands into different edits
                     edits[name] = {}
                 edits[name][command] = [{segfrom: segto}, coords]
+        import pdb;pdb.set_trace()
         for name, commands in tqdm(edits.items(), total=len(edits), desc="Merging"):
             pos = commands["merge"]
             segmentation_data = fastremap.remap(segmentation_data, pos[0], preserve_missing_labels=True)
@@ -95,6 +100,7 @@ def main(conf):
             largest_segment_id=int(segmentation_data.max())
         )
         new_segmentation_mag = new_segmentation_layer.add_mag("1")
+        import pdb;pdb.set_trace()
         new_segmentation_mag.write(segmentation_data)
         new_segmentation_mag.compress()
         new_segmentation_layer.downsample()
