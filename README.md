@@ -23,9 +23,9 @@ git clone https://github.com/drewlinsley/wk_scripts.git
 module load anaconda
 
 ##  2. start a persistent screen session
-`screen`
-detatch a screen: ctrl+a (same time) then d
-list screen sessions: screen -ls
+- `screen`
+- detatch a screen: ctrl+a (same time) then d 
+- list screen sessions: screen -ls
 
 ##  3. Request our node
 interact -n 8 -m 512g -t 48:00:00 -q bigmem
