@@ -9,11 +9,11 @@
 Run a script using: `python split_merge.py configs/W-Q.yml`
 
 # Editing files in vim
-`vi configs/template.yml`
-# Press `i` to edit and escape to stop.
-# Press :wq to save and exit
-# Press :q to exit without saving
-# Press :q! to force exit without saving 
+- `vi configs/template.yml`
+- Press `i` to edit and escape to stop.
+- Press :wq to save and exit
+- Press :q to exit without saving
+- Press :q! to force exit without saving 
 
 ##  Using oscar
 # If the repo doesn't exist on your machine yet:
