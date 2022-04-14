@@ -26,7 +26,7 @@ module load anaconda
 - `screen`
 - detatch a screen: ctrl+a (same time) then d 
 - list screen sessions: screen -ls
-- attach a screen: screen -r <screen id number>
+- attach a screen: screen -r {screen id number}
 
 ##  3. Request our node
 interact -n 8 -m 512g -t 48:00:00 -q bigmem
