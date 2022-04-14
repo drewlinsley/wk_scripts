@@ -8,3 +8,35 @@
 
 Run a script using: `python split_merge.py configs/W-Q.yml`
 
+# Editing files in vim
+`vi configs/template.yml`
+# Press `i` to edit and escape to stop.
+# Press :wq to save and exit
+# Press :q to exit without saving
+# Press :q! to force exit without saving 
+
+##  Using oscar
+# If the repo doesn't exist on your machine yet:
+git clone https://github.com/drewlinsley/wk_scripts.git
+
+# 1. load conda
+module load anaconda
+
+# 2. start a persistent screen session
+`screen`
+detatch a screen: ctrl+a (same time) then d
+list screen sessions: screen -ls
+
+# 3. Request our node
+interact -n 8 -m 512g -t 48:00:00 -q bigmem
+
+# 4. Load our conda env wk_merge
+conda activate wk_merge
+
+# 5. Enter your wk_scripts directory
+cd wk_scripts
+
+# 6. Run your script
+python3 split_merge.py configs/template.yml
+
+# 7. Enjoy
