@@ -19,6 +19,9 @@ Run a script using: `python split_merge.py configs/W-Q.yml`
 ##  If the repo doesn't exist on your machine yet:
 git clone https://github.com/drewlinsley/wk_scripts.git
 
+## Kill a python process
+ctrl+c
+
 ##  1. load conda
 module load anaconda
 
@@ -27,6 +30,8 @@ module load anaconda
 - detatch a screen: ctrl+a (same time) then d 
 - list screen sessions: screen -ls
 - attach a screen: screen -r {screen id number}
+- exit a screen by entering it then typing exit
+- If you have trouble attaching a screen, try typing screen -rD {screen id number}
 
 ##  3. Request our node
 interact -n 8 -m 512g -t 48:00:00 -q bigmem
