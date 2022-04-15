@@ -90,8 +90,8 @@ def main(conf):
                     print("Segment id {} successfully propogated.".format(pos_0))
 
         # Overwrite annotations
-        dataset.delete_layer(segmentation_layer)
-        new_segmentation_layer = dataset.add_layer(
+        # dataset.delete_layer(segmentation_layer)
+        new_segmentation_layer = new_dataset.add_layer(
             segmentation_layer,
             wk.SEGMENTATION_CATEGORY,
             volume_annotation_layer.dtype_per_channel,
@@ -101,7 +101,15 @@ def main(conf):
         new_segmentation_mag.write(segmentation_data)
         new_segmentation_mag.compress()
         new_segmentation_layer.downsample()
-        url = dataset.upload()
+        url = new_dataset.upload(
+            layers_to_link=[
+                wk.LayerToLink(
+                    organization_id=online_team,
+                    dataset_name=online_dataset,
+                    layer_name="color",
+                )
+            ]
+        )
         print("Uploaded new base annotation to: {}".format(url)) 
 
 
