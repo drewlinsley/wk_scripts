@@ -106,7 +106,7 @@ def main(conf):
                 wk.LayerToLink(
                     organization_id=online_team,
                     dataset_name=online_dataset,
-                    layer_name="color",
+                    layer_name="images",
                 )
             ]
         )
