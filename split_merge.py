@@ -14,6 +14,7 @@ def main(conf):
     path = conf.revision_path  # WQ
     scale = tuple([x for x in conf.scale])  # (5.0, 5.0, 50.0)
     segmentation_layer = conf.segmentation_layer  #     "segmentations"
+    image_layer = conf.image_layer
     online_dataset = conf.online_dataset  # "W-Q_x0_y0_z0_2022-01-02_00-43-18"
     online_team = conf.online_team  # "4fd6473e68256c0a"
     annotation_url = conf.annotation_url  # "https://webknossos.org/annotations/Explorational/61d5c797010000b500b3a085"
@@ -106,7 +107,7 @@ def main(conf):
                 wk.LayerToLink(
                     organization_id=online_team,
                     dataset_name=online_dataset,
-                    layer_name="images",
+                    layer_name=image_layer,
                 )
             ]
         )
