@@ -100,14 +100,15 @@ def main(conf):
         )
         new_segmentation_mag = new_segmentation_layer.add_mag("1")
         new_segmentation_mag.write(segmentation_data)
-        new_segmentation_mag.compress()
-        new_segmentation_layer.downsample()
+        # new_segmentation_mag.compress()
+        # new_segmentation_layer.downsample()
         url = new_dataset.upload(
             layers_to_link=[
                 wk.LayerToLink(
-                    organization_id=online_team,
-                    dataset_name=online_dataset,
-                    layer_name=image_layer,
+                    # organization_id=online_team,
+                    # dataset_name=online_dataset,
+                    # layer_name=image_layer,
+                    organization_id="4fd6473e68256c0a", dataset_name="W-Q_x0_y0_z0_2022-01-02_00-43-18", layer_name="images"
                 )
             ]
         )
